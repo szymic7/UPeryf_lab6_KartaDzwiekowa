@@ -55,6 +55,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.bDS_pause = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // bChooseFile
@@ -87,7 +88,7 @@
             // labelWindowsMediaPlayer
             // 
             this.labelWindowsMediaPlayer.AutoSize = true;
-            this.labelWindowsMediaPlayer.Location = new System.Drawing.Point(369, 91);
+            this.labelWindowsMediaPlayer.Location = new System.Drawing.Point(387, 91);
             this.labelWindowsMediaPlayer.Name = "labelWindowsMediaPlayer";
             this.labelWindowsMediaPlayer.Size = new System.Drawing.Size(235, 20);
             this.labelWindowsMediaPlayer.TabIndex = 3;
@@ -96,7 +97,7 @@
             // labelWaveOutWrite
             // 
             this.labelWaveOutWrite.AutoSize = true;
-            this.labelWaveOutWrite.Location = new System.Drawing.Point(381, 288);
+            this.labelWaveOutWrite.Location = new System.Drawing.Point(400, 288);
             this.labelWaveOutWrite.Name = "labelWaveOutWrite";
             this.labelWaveOutWrite.Size = new System.Drawing.Size(203, 20);
             this.labelWaveOutWrite.TabIndex = 4;
@@ -114,7 +115,7 @@
             // labelDirectSound
             // 
             this.labelDirectSound.AutoSize = true;
-            this.labelDirectSound.Location = new System.Drawing.Point(176, 288);
+            this.labelDirectSound.Location = new System.Drawing.Point(203, 288);
             this.labelDirectSound.Name = "labelDirectSound";
             this.labelDirectSound.Size = new System.Drawing.Size(102, 20);
             this.labelDirectSound.TabIndex = 6;
@@ -142,7 +143,7 @@
             // bDS_stop
             // 
             this.bDS_stop.Image = global::Karta_muzyczna.Properties.Resources.stop_button;
-            this.bDS_stop.Location = new System.Drawing.Point(238, 327);
+            this.bDS_stop.Location = new System.Drawing.Point(285, 327);
             this.bDS_stop.Name = "bDS_stop";
             this.bDS_stop.Size = new System.Drawing.Size(49, 49);
             this.bDS_stop.TabIndex = 19;
@@ -152,7 +153,7 @@
             // bDS_play
             // 
             this.bDS_play.Image = global::Karta_muzyczna.Properties.Resources.play_button;
-            this.bDS_play.Location = new System.Drawing.Point(172, 327);
+            this.bDS_play.Location = new System.Drawing.Point(151, 326);
             this.bDS_play.Name = "bDS_play";
             this.bDS_play.Size = new System.Drawing.Size(51, 49);
             this.bDS_play.TabIndex = 18;
@@ -193,7 +194,7 @@
             // 
             this.bWOW_stop.Cursor = System.Windows.Forms.Cursors.Default;
             this.bWOW_stop.Image = ((System.Drawing.Image)(resources.GetObject("bWOW_stop.Image")));
-            this.bWOW_stop.Location = new System.Drawing.Point(516, 326);
+            this.bWOW_stop.Location = new System.Drawing.Point(535, 326);
             this.bWOW_stop.Name = "bWOW_stop";
             this.bWOW_stop.Size = new System.Drawing.Size(51, 49);
             this.bWOW_stop.TabIndex = 14;
@@ -203,7 +204,7 @@
             // bWOW_play
             // 
             this.bWOW_play.Image = ((System.Drawing.Image)(resources.GetObject("bWOW_play.Image")));
-            this.bWOW_play.Location = new System.Drawing.Point(385, 326);
+            this.bWOW_play.Location = new System.Drawing.Point(404, 326);
             this.bWOW_play.Name = "bWOW_play";
             this.bWOW_play.Size = new System.Drawing.Size(51, 49);
             this.bWOW_play.TabIndex = 13;
@@ -213,7 +214,7 @@
             // bWMP_stop
             // 
             this.bWMP_stop.Image = ((System.Drawing.Image)(resources.GetObject("bWMP_stop.Image")));
-            this.bWMP_stop.Location = new System.Drawing.Point(524, 130);
+            this.bWMP_stop.Location = new System.Drawing.Point(542, 130);
             this.bWMP_stop.Name = "bWMP_stop";
             this.bWMP_stop.Size = new System.Drawing.Size(51, 49);
             this.bWMP_stop.TabIndex = 12;
@@ -223,7 +224,7 @@
             // bWMP_pause
             // 
             this.bWMP_pause.Image = ((System.Drawing.Image)(resources.GetObject("bWMP_pause.Image")));
-            this.bWMP_pause.Location = new System.Drawing.Point(455, 130);
+            this.bWMP_pause.Location = new System.Drawing.Point(473, 130);
             this.bWMP_pause.Name = "bWMP_pause";
             this.bWMP_pause.Size = new System.Drawing.Size(51, 49);
             this.bWMP_pause.TabIndex = 11;
@@ -233,7 +234,7 @@
             // bWMP_play
             // 
             this.bWMP_play.Image = ((System.Drawing.Image)(resources.GetObject("bWMP_play.Image")));
-            this.bWMP_play.Location = new System.Drawing.Point(387, 130);
+            this.bWMP_play.Location = new System.Drawing.Point(405, 130);
             this.bWMP_play.Name = "bWMP_play";
             this.bWMP_play.Size = new System.Drawing.Size(51, 49);
             this.bWMP_play.TabIndex = 10;
@@ -263,7 +264,7 @@
             // bWOW_pause
             // 
             this.bWOW_pause.Image = global::Karta_muzyczna.Properties.Resources.video_pause_button;
-            this.bWOW_pause.Location = new System.Drawing.Point(451, 326);
+            this.bWOW_pause.Location = new System.Drawing.Point(470, 326);
             this.bWOW_pause.Name = "bWOW_pause";
             this.bWOW_pause.Size = new System.Drawing.Size(49, 49);
             this.bWOW_pause.TabIndex = 21;
@@ -274,7 +275,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(167, 235);
+            this.label1.Location = new System.Drawing.Point(149, 238);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(444, 25);
             this.label1.TabIndex = 22;
@@ -310,12 +311,23 @@
             this.label4.TabIndex = 25;
             this.label4.Text = "Wybór pliku do odtwarzania";
             // 
+            // bDS_pause
+            // 
+            this.bDS_pause.Image = global::Karta_muzyczna.Properties.Resources.video_pause_button;
+            this.bDS_pause.Location = new System.Drawing.Point(218, 327);
+            this.bDS_pause.Name = "bDS_pause";
+            this.bDS_pause.Size = new System.Drawing.Size(49, 49);
+            this.bDS_pause.TabIndex = 26;
+            this.bDS_pause.UseVisualStyleBackColor = true;
+            this.bDS_pause.Click += new System.EventHandler(this.bDS_pause_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.ClientSize = new System.Drawing.Size(778, 744);
+            this.Controls.Add(this.bDS_pause);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -377,6 +389,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button bDS_pause;
     }
 }
 

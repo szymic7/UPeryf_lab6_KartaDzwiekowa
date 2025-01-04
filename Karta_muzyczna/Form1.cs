@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Media;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using WMPLib;
 using System.Runtime.InteropServices;
 using SharpDX.DirectSound;
-using SharpDX.Multimedia;
-using System;
-using System.IO;
-using System.Windows.Forms;
-using SharpDX;
+using NAudio.Wave;
 
 namespace Karta_muzyczna
 {
     public partial class Form1 : Form
     {
         // PlaySound()
-        SoundPlayer player = null;
+        SoundPlayer soundPlayer = null;
 
         // ActiveX
         WMPLib.WindowsMediaPlayer wmp = null;
@@ -93,6 +83,8 @@ namespace Karta_muzyczna
         // Direct Sound
         private DirectSound directSound;
         private SecondarySoundBuffer secondaryBuffer;
+        bool isPausedDS = false;
+        int pausedPosition = 0;
 
 
         // MCI
@@ -108,6 +100,7 @@ namespace Karta_muzyczna
         public Form1()
         {
             InitializeComponent();
+            InitializeDirectSound();
         }
 
         //------------------------------------------------------------------------------------------------------------------------------
@@ -119,7 +112,7 @@ namespace Karta_muzyczna
 
             // Ustawienia okna dialogowego
             openFileDialog.Title = "Wybierz plik";
-            openFileDialog.Filter = "Muzyka(*.mp3;*.wav)|*.mp3; *.wav;";
+            openFileDialog.Filter = "Audio(*.mp3;*.wav)|*.mp3; *.wav;";
 
             // Sprawdzamy, czy użytkownik wybrał plik i zatwierdził wybór
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -129,20 +122,51 @@ namespace Karta_muzyczna
             }
 
             // Zatrzymanie odtwarzania dzwieku, dla poprzedniego pliku dzwiekowego
-            if(player != null)
+            // PlaySound()
+            if(soundPlayer != null)
             {
-                player.Stop();
-                player.Dispose();
-                player = null;
+                soundPlayer.Stop();
+                soundPlayer.Dispose();
+                soundPlayer = null;
             }
 
+            // Windows Media Player
             if (wmp != null)
             {
                 wmp.controls.stop();
                 wmp = null;
             }
 
+            // DirectSound
+            if(directSound != null)
+            {
+                if (secondaryBuffer != null)
+                {
+                    secondaryBuffer.Stop();
+                    secondaryBuffer.Dispose();
+                    secondaryBuffer = null;
+                }
+            }
+
+            // WaveOutWrite
+            if(isPlaying)
+            {
+                waveOutReset(waveOutHandle); // Zatrzymuje odtwarzanie
+                waveOutUnprepareHeader(waveOutHandle, ref waveHeader, Marshal.SizeOf(waveHeader));
+                waveOutClose(waveOutHandle);
+
+                if (audioDataHandle.IsAllocated)
+                {
+                    audioDataHandle.Free();
+                }
+
+                isPlaying = false;
+                isPaused = false;
+            }
+
         }
+
+        //------------------------------------------------------------------------------------------------------------------------------
 
         private void bPS_play_Click(object sender, EventArgs e)
         {
@@ -152,11 +176,11 @@ namespace Karta_muzyczna
                 return;
             }
 
-            player = new SoundPlayer(txtFilePath.Text);
+            soundPlayer = new SoundPlayer(txtFilePath.Text);
            
             try
             {
-                player.Play();
+                soundPlayer.Play();
             }
             catch (Exception ex)
             {
@@ -164,16 +188,16 @@ namespace Karta_muzyczna
             }
             finally
             {
-                player.Dispose();
+                soundPlayer.Dispose();
             }
         }
 
         private void bPS_stop_Click(object sender, EventArgs e)
         {
-            if(player!=null)
+            if(soundPlayer!=null)
             {
-                player.Stop();
-                player.Dispose();
+                soundPlayer.Stop();
+                soundPlayer.Dispose();
             }
         }
 
@@ -211,6 +235,7 @@ namespace Karta_muzyczna
             if(wmp!=null)
             {
                 wmp.controls.stop();
+                wmp.close();
                 wmp = null;
             }
         }
@@ -346,7 +371,7 @@ namespace Karta_muzyczna
                 return;
             }
 
-            // Upewnij się, że DirectSound jest zainicjalizowany
+            // Jesli nie udalo sie zainicjalizowac DirectSound
             if (directSound == null)
             {
                 InitializeDirectSound();
@@ -357,35 +382,73 @@ namespace Karta_muzyczna
                 }
             }
 
-            // Wczytaj plik audio i stwórz bufor dźwięku
-            var waveFormat = new SharpDX.Multimedia.WaveFormat(44100, 16, 2); // 44.1 kHz, 16-bit, stereo
-
-            var bufferDescription = new SoundBufferDescription
-            {
-                Flags = BufferFlags.ControlVolume,
-                BufferBytes = (int)new FileInfo(txtFilePath.Text).Length,
-                Format = waveFormat
-            };
-
-            // Inicjalizacja SecondarySoundBuffer
             try
             {
-                secondaryBuffer = new SecondarySoundBuffer(directSound, bufferDescription);
-
-                // Wczytaj dane audio i zapisz je do bufora
-                using (var audioStream = new FileStream(txtFilePath.Text, FileMode.Open, FileAccess.Read))
+                // Plik jest juz odtwarzany i nie zostal zatrzymany
+                if (secondaryBuffer != null && !isPausedDS)
                 {
-                    byte[] audioData = new byte[audioStream.Length];
-                    audioStream.Read(audioData, 0, audioData.Length);
-                    secondaryBuffer.Write(audioData, 0, LockFlags.None);
+                    return;
                 }
 
-                // Odtwórz dźwięk
-                secondaryBuffer.Play(0, PlayFlags.Looping);
+                // Plik zostal zatrzymany - nastepuje wznowienie
+                if(isPausedDS)
+                {
+                    secondaryBuffer.CurrentPosition = pausedPosition;
+                    secondaryBuffer.Play(0, PlayFlags.Looping);
+                }
+                else // Plik nie zostal jeszcze uruchomiony
+                {
+                    // Odczytanie parametrow pliku WAV
+                    using (var audioReader = new WaveFileReader(txtFilePath.Text))
+                    {
+                        var waveFormat = new SharpDX.Multimedia.WaveFormat(
+                            audioReader.WaveFormat.SampleRate,
+                            audioReader.WaveFormat.BitsPerSample,
+                            audioReader.WaveFormat.Channels
+                        );
+
+                        var bufferDescription = new SoundBufferDescription
+                        {
+                            Flags = BufferFlags.ControlVolume,
+                            BufferBytes = (int)audioReader.Length,
+                            Format = waveFormat
+                        };
+
+                        // Inicjalizacja SecondarySoundBuffer
+                        secondaryBuffer = new SecondarySoundBuffer(directSound, bufferDescription);
+
+                        // Wczytaj dane audio i zapisz je do bufora
+                        byte[] audioData = new byte[audioReader.Length];
+                        audioReader.Read(audioData, 0, audioData.Length);
+                        secondaryBuffer.Write(audioData, 0, LockFlags.None);
+
+                        // Odtwórz dźwięk
+                        secondaryBuffer.Play(0, PlayFlags.Looping);
+                    }
+                }
+
+                isPausedDS = false;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Błąd podczas odtwarzania dźwięku: " + ex.Message);
+            }
+        }
+
+        private void bDS_pause_Click(object sender, EventArgs e)
+        {
+            if (secondaryBuffer != null && !isPausedDS)
+            {
+                // Declare variables for the output of GetCurrentPosition
+                int playCursor;
+                int writeCursor;
+
+                // Pause: Get the current play position
+                secondaryBuffer.GetCurrentPosition(out playCursor, out writeCursor);
+                pausedPosition = playCursor;
+
+                secondaryBuffer.Stop();
+                isPausedDS = true; // Mark as paused if you want to track it
             }
         }
 
@@ -498,7 +561,7 @@ namespace Karta_muzyczna
             }
         }
 
-
+        
         //------------------------------------------------------------------------------------------------------------------------------
 
     }
