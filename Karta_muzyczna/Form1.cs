@@ -268,11 +268,11 @@ namespace Karta_muzyczna
                 using (var reader = new BinaryReader(new FileStream(txtFilePath.Text, FileMode.Open)))
                 {
                     reader.BaseStream.Seek(20, SeekOrigin.Begin);
-                    short wFormatTag = reader.ReadInt16();  //Odczytywanie formatu dźwięku (pozycja 20) 2 bajty
-                    short nChannels = reader.ReadInt16();   // Odczytanie liczby kanałów (pozycja 22)   2 bajty
-                    int nSamplesPerSec = reader.ReadInt32();    //Odczytanie częstotliwości próbkowania (pozycja 24) 4 bajty
+                    short wFormatTag = reader.ReadInt16();  // Odczytywanie formatu dźwięku (pozycja 20) 2 bajty
+                    short nChannels = reader.ReadInt16();   // Odczytanie liczby kanałów (pozycja 22) 2 bajty
+                    int nSamplesPerSec = reader.ReadInt32();    // Odczytanie częstotliwości próbkowania (pozycja 24) 4 bajty
                     reader.BaseStream.Seek(34, SeekOrigin.Begin); // Przesunięcie do bitów na próbkę
-                    short wBitsPerSample = reader.ReadInt16();  //Odczytanie liczby bitów na próbkę (pozycja 34) 2 bajty
+                    short wBitsPerSample = reader.ReadInt16();  // Odczytanie liczby bitów na próbkę (pozycja 34) 2 bajty
 
                     waveF.wFormatTag = wFormatTag;
                     waveF.nChannels = nChannels;
@@ -281,6 +281,12 @@ namespace Karta_muzyczna
                     waveF.nBlockAlign = (short)(nChannels * wBitsPerSample / 8);
                     waveF.nAvgBytesPerSec = nSamplesPerSec * nChannels * wBitsPerSample / 8;
                     waveF.cbSize = 0;
+
+                    // Wyświetlanie odczytanych pól nagłówka WAV
+                    textBoxTag.Text = wFormatTag.ToString();
+                    textBoxChanels.Text = nChannels.ToString();
+                    textBoxSamples.Text = nSamplesPerSec.ToString();
+                    textBoxBits.Text = wBitsPerSample.ToString();
                 }
 
                 waveHeader = new WaveHeader

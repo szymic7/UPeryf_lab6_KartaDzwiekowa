@@ -56,6 +56,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.bDS_pause = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.textBoxTag = new System.Windows.Forms.TextBox();
+            this.textBoxChanels = new System.Windows.Forms.TextBox();
+            this.textBoxSamples = new System.Windows.Forms.TextBox();
+            this.textBoxBits = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // bChooseFile
@@ -132,7 +141,7 @@
             // 
             // bRecord
             // 
-            this.bRecord.Image = global::Karta_muzyczna.Properties.Resources.rec_button;
+            this.bRecord.Image = global::Karta_muzyczna.Properties.Resources.record1;
             this.bRecord.Location = new System.Drawing.Point(207, 542);
             this.bRecord.Name = "bRecord";
             this.bRecord.Size = new System.Drawing.Size(49, 49);
@@ -321,12 +330,99 @@
             this.bDS_pause.UseVisualStyleBackColor = true;
             this.bDS_pause.Click += new System.EventHandler(this.bDS_pause_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label5.Location = new System.Drawing.Point(713, 238);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(290, 25);
+            this.label5.TabIndex = 27;
+            this.label5.Text = "Odczytane pola nagłówka WAV";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label6.Location = new System.Drawing.Point(752, 288);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(98, 20);
+            this.label6.TabIndex = 28;
+            this.label6.Text = "wFormatTag";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label7.Location = new System.Drawing.Point(774, 323);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(76, 20);
+            this.label7.TabIndex = 29;
+            this.label7.Text = "nChanels";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label8.Location = new System.Drawing.Point(718, 365);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(132, 20);
+            this.label8.TabIndex = 30;
+            this.label8.Text = "nSamplesPerSec";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label9.Location = new System.Drawing.Point(725, 405);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(125, 20);
+            this.label9.TabIndex = 31;
+            this.label9.Text = "wBitsPerSample";
+            // 
+            // textBoxTag
+            // 
+            this.textBoxTag.Location = new System.Drawing.Point(869, 282);
+            this.textBoxTag.Name = "textBoxTag";
+            this.textBoxTag.Size = new System.Drawing.Size(100, 26);
+            this.textBoxTag.TabIndex = 32;
+            // 
+            // textBoxChanels
+            // 
+            this.textBoxChanels.Location = new System.Drawing.Point(869, 320);
+            this.textBoxChanels.Name = "textBoxChanels";
+            this.textBoxChanels.Size = new System.Drawing.Size(100, 26);
+            this.textBoxChanels.TabIndex = 33;
+            // 
+            // textBoxSamples
+            // 
+            this.textBoxSamples.Location = new System.Drawing.Point(869, 362);
+            this.textBoxSamples.Name = "textBoxSamples";
+            this.textBoxSamples.Size = new System.Drawing.Size(100, 26);
+            this.textBoxSamples.TabIndex = 34;
+            // 
+            // textBoxBits
+            // 
+            this.textBoxBits.Location = new System.Drawing.Point(869, 402);
+            this.textBoxBits.Name = "textBoxBits";
+            this.textBoxBits.Size = new System.Drawing.Size(100, 26);
+            this.textBoxBits.TabIndex = 35;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.ClientSize = new System.Drawing.Size(778, 744);
+            this.ClientSize = new System.Drawing.Size(1052, 753);
+            this.Controls.Add(this.textBoxBits);
+            this.Controls.Add(this.textBoxSamples);
+            this.Controls.Add(this.textBoxChanels);
+            this.Controls.Add(this.textBoxTag);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.bDS_pause);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -354,6 +450,8 @@
             this.Controls.Add(this.labelPlaySound);
             this.Controls.Add(this.txtFilePath);
             this.Controls.Add(this.bChooseFile);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -390,6 +488,15 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button bDS_pause;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textBoxTag;
+        private System.Windows.Forms.TextBox textBoxChanels;
+        private System.Windows.Forms.TextBox textBoxSamples;
+        private System.Windows.Forms.TextBox textBoxBits;
     }
 }
 
