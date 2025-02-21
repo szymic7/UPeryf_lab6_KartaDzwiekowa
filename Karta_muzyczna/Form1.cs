@@ -8,13 +8,13 @@ using WMPLib;
 using System.Runtime.InteropServices;
 using SharpDX.DirectSound;
 using NAudio.Wave;
+using System.IO;
+using System.Linq;
 
 namespace Karta_muzyczna
 {
     public partial class Form1 : Form
     {
-        // PlaySound()
-        SoundPlayer soundPlayer = null;
 
         // ActiveX
         WMPLib.WindowsMediaPlayer wmp = null;
@@ -80,27 +80,16 @@ namespace Karta_muzyczna
         private bool isPaused = false;
 
 
-        // Direct Sound
-        private DirectSound directSound;
-        private SecondarySoundBuffer secondaryBuffer;
-        bool isPausedDS = false;
-        int pausedPosition = 0;
-
-
-        // MCI
+        // Nagrywanie (MCI)
         [DllImport("winmm.dll")]
         private static extern long mciSendString(string command, StringBuilder returnValue, int returnLength, IntPtr winHandle);
 
-        bool mci = false;
-
-        // Recording
         private bool isRecording = false;
 
 
         public Form1()
         {
             InitializeComponent();
-            InitializeDirectSound();
         }
 
         //------------------------------------------------------------------------------------------------------------------------------
@@ -122,30 +111,12 @@ namespace Karta_muzyczna
             }
 
             // Zatrzymanie odtwarzania dzwieku, dla poprzedniego pliku dzwiekowego
-            // PlaySound()
-            if(soundPlayer != null)
-            {
-                soundPlayer.Stop();
-                soundPlayer.Dispose();
-                soundPlayer = null;
-            }
 
             // Windows Media Player
             if (wmp != null)
             {
                 wmp.controls.stop();
                 wmp = null;
-            }
-
-            // DirectSound
-            if(directSound != null)
-            {
-                if (secondaryBuffer != null)
-                {
-                    secondaryBuffer.Stop();
-                    secondaryBuffer.Dispose();
-                    secondaryBuffer = null;
-                }
             }
 
             // WaveOutWrite
@@ -165,42 +136,7 @@ namespace Karta_muzyczna
             }
 
         }
-
-        //------------------------------------------------------------------------------------------------------------------------------
-
-        private void bPS_play_Click(object sender, EventArgs e)
-        {
-            if(txtFilePath.Text == string.Empty)
-            {
-                MessageBox.Show("Wybierz plik, aby moc go odtworzyc!", "Nie wybrano pliku", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            soundPlayer = new SoundPlayer(txtFilePath.Text);
-           
-            try
-            {
-                soundPlayer.Play();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error: " + ex.Message);
-            }
-            finally
-            {
-                soundPlayer.Dispose();
-            }
-        }
-
-        private void bPS_stop_Click(object sender, EventArgs e)
-        {
-            if(soundPlayer!=null)
-            {
-                soundPlayer.Stop();
-                soundPlayer.Dispose();
-            }
-        }
-
+        
         //------------------------------------------------------------------------------------------------------------------------------
 
         private void bWMP_play_Click(object sender, EventArgs e)
@@ -217,7 +153,24 @@ namespace Karta_muzyczna
                 wmp.URL = txtFilePath.Text;
             }
             
-            wmp.controls.play();
+            try
+            {
+                wmp.controls.play();
+
+                // Odczyt naglowka MP3
+                var file = TagLib.File.Create(txtFilePath.Text);
+
+                textBoxTitle.Text = $"{file.Tag.Title ?? "Unknown"}";
+                textBoxArtist.Text = $"{file.Tag.Performers.FirstOrDefault() ?? "Unknown"}";
+                textBoxAlbum.Text = $"{file.Tag.Album ?? "Unknown"}";
+                textBoxGenre.Text = $"{file.Tag.Genres.FirstOrDefault() ?? "Unknown"}";
+                textBoxDuration.Text = $"{file.Properties.Duration}";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while reading MP3 metadata: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
 
@@ -356,175 +309,25 @@ namespace Karta_muzyczna
 
         //------------------------------------------------------------------------------------------------------------------------------
 
-        private void InitializeDirectSound()
-        {
-            try
-            {
-                directSound = new DirectSound();
-                directSound.SetCooperativeLevel(this.Handle, CooperativeLevel.Priority);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Błąd inicjalizacji DirectSound: " + ex.Message);
-            }
-        }
-
-        private void bDS_play_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtFilePath.Text))
-            {
-                MessageBox.Show("Wybierz plik, aby moc go odtworzyc!", "Nie wybrano pliku", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Jesli nie udalo sie zainicjalizowac DirectSound
-            if (directSound == null)
-            {
-                InitializeDirectSound();
-                if (directSound == null)
-                {
-                    MessageBox.Show("Nie udało się zainicjalizować DirectSound.");
-                    return;
-                }
-            }
-
-            try
-            {
-                // Plik jest juz odtwarzany i nie zostal zatrzymany
-                if (secondaryBuffer != null && !isPausedDS)
-                {
-                    return;
-                }
-
-                // Plik zostal zatrzymany - nastepuje wznowienie
-                if(isPausedDS)
-                {
-                    secondaryBuffer.CurrentPosition = pausedPosition;
-                    secondaryBuffer.Play(0, PlayFlags.Looping);
-                }
-                else // Plik nie zostal jeszcze uruchomiony
-                {
-                    // Odczytanie parametrow pliku WAV
-                    using (var audioReader = new WaveFileReader(txtFilePath.Text))
-                    {
-                        var waveFormat = new SharpDX.Multimedia.WaveFormat(
-                            audioReader.WaveFormat.SampleRate,
-                            audioReader.WaveFormat.BitsPerSample,
-                            audioReader.WaveFormat.Channels
-                        );
-
-                        var bufferDescription = new SoundBufferDescription
-                        {
-                            Flags = BufferFlags.ControlVolume,
-                            BufferBytes = (int)audioReader.Length,
-                            Format = waveFormat
-                        };
-
-                        // Inicjalizacja SecondarySoundBuffer
-                        secondaryBuffer = new SecondarySoundBuffer(directSound, bufferDescription);
-
-                        // Wczytaj dane audio i zapisz je do bufora
-                        byte[] audioData = new byte[audioReader.Length];
-                        audioReader.Read(audioData, 0, audioData.Length);
-                        secondaryBuffer.Write(audioData, 0, LockFlags.None);
-
-                        // Odtwórz dźwięk
-                        secondaryBuffer.Play(0, PlayFlags.Looping);
-                    }
-                }
-
-                isPausedDS = false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Błąd podczas odtwarzania dźwięku: " + ex.Message);
-            }
-        }
-
-        private void bDS_pause_Click(object sender, EventArgs e)
-        {
-            if (secondaryBuffer != null && !isPausedDS)
-            {
-                // Declare variables for the output of GetCurrentPosition
-                int playCursor;
-                int writeCursor;
-
-                // Pause: Get the current play position
-                secondaryBuffer.GetCurrentPosition(out playCursor, out writeCursor);
-                pausedPosition = playCursor;
-
-                secondaryBuffer.Stop();
-                isPausedDS = true; // Mark as paused if you want to track it
-            }
-        }
-
-        private void bDS_stop_Click(object sender, EventArgs e)
-        {
-            if (secondaryBuffer != null)
-            {
-                secondaryBuffer.Stop();
-                secondaryBuffer.Dispose();
-                secondaryBuffer = null;
-            }
-        }
-
-        //------------------------------------------------------------------------------------------------------------------------------
-
-        private void bMCI_play_Click(object sender, EventArgs e)
-        {
-            if (txtFilePath.Text == string.Empty)
-            {
-                MessageBox.Show("Wybierz plik, aby moc go odtworzyc!", "Nie wybrano pliku", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            string command;
-
-            if(mci)
-            {
-                command = "resume soundFile";
-                mciSendString(command, null, 0, IntPtr.Zero);
-                return;
-            }
-            
-            command = $"open \"{txtFilePath.Text}\" type waveaudio alias soundFile";
-            mciSendString(command, null, 0, IntPtr.Zero);
-
-            // Odtworzenie dźwięku
-            command = "play soundFile";
-            mciSendString(command, null, 0, IntPtr.Zero);
-            mci = true;
-        }
-
-        private void bMCI_pause_Click(object sender, EventArgs e)
-        {
-            if(mci)
-            {
-                string command = "pause soundFile";
-                mciSendString(command, null, 0, IntPtr.Zero);
-            }
-        }
-
-        private void bMCI_stop_Click(object sender, EventArgs e)
-        {
-            if (mci)
-            {
-                string command = "close soundFile";
-                mciSendString(command, null, 0, IntPtr.Zero);
-                mci = false;
-            }
-        }
-
-        //------------------------------------------------------------------------------------------------------------------------------
-
         private void bRecord_Click(object sender, EventArgs e)
+        {
+            record(false);
+        }
+
+        private void bRecordFiltered_Click(object sender, EventArgs e)
+        {
+            record(true);
+        }
+
+        private void record(bool isFiltered)
         {
             string command = null;
 
-            if(!isRecording)
+            if (!isRecording)
             {
                 // Zmień wygląd przycisku na wciśnięty
-                bRecord.BackColor = Color.Red;
+                if(isFiltered) bRecordFiltered.BackColor = Color.Red;
+                else bRecord.BackColor = Color.Red;
                 isRecording = true;
 
                 // Rozpocznij nagrywanie
@@ -540,12 +343,15 @@ namespace Karta_muzyczna
             else
             {
                 // Zmień wygląd przycisku na odciśnięty
-                bRecord.BackColor = Color.White;
+                if(isFiltered) bRecordFiltered.BackColor = Color.White;
+                else bRecord.BackColor = Color.White;
                 isRecording = false;
 
                 // Zatrzymaj nagrywanie i zapisz plik
                 command = "stop mic";
                 mciSendString(command, null, 0, IntPtr.Zero);
+
+                string savedFilePath = null;
 
                 // Otwórz okno dialogowe zapisu pliku
                 using (SaveFileDialog saveFileDialog = new SaveFileDialog())
@@ -557,17 +363,77 @@ namespace Karta_muzyczna
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
                         // Zapisz nagrany plik dźwiękowy na wybraną ścieżkę
-                        command = $"save mic \"{saveFileDialog.FileName}\"";
+                        savedFilePath = saveFileDialog.FileName;
+                        command = $"save mic \"{savedFilePath}\"";
                         mciSendString(command, null, 0, IntPtr.Zero);
                     }
                 }
 
                 command = "close mic";
                 mciSendString(command, null, 0, IntPtr.Zero);
+
+                if (isFiltered)
+                {
+                    // Zastosowanie filtru dla nagrania
+                    if (!string.IsNullOrEmpty(savedFilePath))
+                    {
+                        string filteredFilePath = Path.Combine(
+                            Path.GetDirectoryName(savedFilePath),
+                            Path.GetFileNameWithoutExtension(savedFilePath) + "_filtered.wav"
+                        );
+
+                        ApplyDeadenFilter(savedFilePath, filteredFilePath);
+
+                        MessageBox.Show($"Nagranie z filtrem zapisane jako:\n{filteredFilePath}", "Filtr zastosowany", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
             }
         }
 
-        
+      
+        private void ApplyDeadenFilter(string inputFilePath, string outputFilePath)
+        {
+            try
+            {
+                using (var reader = new WaveFileReader(inputFilePath))
+                {
+                    NAudio.Wave.WaveFormat format = reader.WaveFormat;
+
+                    using (var writer = new WaveFileWriter(outputFilePath, format))
+                    {
+                        int bytesPerSample = format.BitsPerSample / 8;
+                        byte[] buffer = new byte[reader.WaveFormat.BlockAlign];
+                        int bytesRead;
+
+                        while ((bytesRead = reader.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            for (int i = 0; i < bytesRead; i += bytesPerSample)
+                            {
+                                short sample = BitConverter.ToInt16(buffer, i);
+
+                                // Skalowanie amplitudy - tlumienie dzwieku
+                                sample = (short)(sample * 0.2); // Tlumienie o 80%
+
+                                // Zapisanie zmodyfikowanego dzwieku do bufora
+                                byte[] processedSample = BitConverter.GetBytes(sample);
+                                buffer[i] = processedSample[0];
+                                buffer[i + 1] = processedSample[1];
+                            }
+
+                            // Zapis z bufora do pliku wyjsciowego
+                            writer.Write(buffer, 0, bytesRead);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Wystapil blad podczas nakladania filtru na nagranie audio: {ex.Message}", "Blad", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
         //------------------------------------------------------------------------------------------------------------------------------
 
     }

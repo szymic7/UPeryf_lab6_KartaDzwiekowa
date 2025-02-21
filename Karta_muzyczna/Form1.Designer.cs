@@ -31,31 +31,21 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.bChooseFile = new System.Windows.Forms.Button();
             this.txtFilePath = new System.Windows.Forms.TextBox();
-            this.labelPlaySound = new System.Windows.Forms.Label();
             this.labelWindowsMediaPlayer = new System.Windows.Forms.Label();
             this.labelWaveOutWrite = new System.Windows.Forms.Label();
             this.labelMCI = new System.Windows.Forms.Label();
-            this.labelDirectSound = new System.Windows.Forms.Label();
             this.labelRecord = new System.Windows.Forms.Label();
             this.bRecord = new System.Windows.Forms.Button();
-            this.bDS_stop = new System.Windows.Forms.Button();
-            this.bDS_play = new System.Windows.Forms.Button();
-            this.bMCI_stop = new System.Windows.Forms.Button();
-            this.bMCI_pause = new System.Windows.Forms.Button();
-            this.bMCI_play = new System.Windows.Forms.Button();
             this.bWOW_stop = new System.Windows.Forms.Button();
             this.bWOW_play = new System.Windows.Forms.Button();
             this.bWMP_stop = new System.Windows.Forms.Button();
             this.bWMP_pause = new System.Windows.Forms.Button();
             this.bWMP_play = new System.Windows.Forms.Button();
-            this.bPS_stop = new System.Windows.Forms.Button();
-            this.bPS_play = new System.Windows.Forms.Button();
             this.bWOW_pause = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.bDS_pause = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -65,6 +55,18 @@
             this.textBoxChanels = new System.Windows.Forms.TextBox();
             this.textBoxSamples = new System.Windows.Forms.TextBox();
             this.textBoxBits = new System.Windows.Forms.TextBox();
+            this.bRecordFiltered = new System.Windows.Forms.Button();
+            this.textBoxGenre = new System.Windows.Forms.TextBox();
+            this.textBoxAlbum = new System.Windows.Forms.TextBox();
+            this.textBoxArtist = new System.Windows.Forms.TextBox();
+            this.textBoxTitle = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.textBoxDuration = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // bChooseFile
@@ -85,19 +87,10 @@
             this.txtFilePath.Size = new System.Drawing.Size(413, 26);
             this.txtFilePath.TabIndex = 1;
             // 
-            // labelPlaySound
-            // 
-            this.labelPlaySound.AutoSize = true;
-            this.labelPlaySound.Location = new System.Drawing.Point(180, 91);
-            this.labelPlaySound.Name = "labelPlaySound";
-            this.labelPlaySound.Size = new System.Drawing.Size(85, 20);
-            this.labelPlaySound.TabIndex = 2;
-            this.labelPlaySound.Text = "PlaySound";
-            // 
             // labelWindowsMediaPlayer
             // 
             this.labelWindowsMediaPlayer.AutoSize = true;
-            this.labelWindowsMediaPlayer.Location = new System.Drawing.Point(387, 91);
+            this.labelWindowsMediaPlayer.Location = new System.Drawing.Point(272, 87);
             this.labelWindowsMediaPlayer.Name = "labelWindowsMediaPlayer";
             this.labelWindowsMediaPlayer.Size = new System.Drawing.Size(235, 20);
             this.labelWindowsMediaPlayer.TabIndex = 3;
@@ -106,7 +99,7 @@
             // labelWaveOutWrite
             // 
             this.labelWaveOutWrite.AutoSize = true;
-            this.labelWaveOutWrite.Location = new System.Drawing.Point(400, 288);
+            this.labelWaveOutWrite.Location = new System.Drawing.Point(286, 293);
             this.labelWaveOutWrite.Name = "labelWaveOutWrite";
             this.labelWaveOutWrite.Size = new System.Drawing.Size(203, 20);
             this.labelWaveOutWrite.TabIndex = 4;
@@ -115,20 +108,11 @@
             // labelMCI
             // 
             this.labelMCI.AutoSize = true;
-            this.labelMCI.Location = new System.Drawing.Point(476, 503);
+            this.labelMCI.Location = new System.Drawing.Point(387, 503);
             this.labelMCI.Name = "labelMCI";
-            this.labelMCI.Size = new System.Drawing.Size(42, 20);
+            this.labelMCI.Size = new System.Drawing.Size(228, 20);
             this.labelMCI.TabIndex = 5;
-            this.labelMCI.Text = "MCI ";
-            // 
-            // labelDirectSound
-            // 
-            this.labelDirectSound.AutoSize = true;
-            this.labelDirectSound.Location = new System.Drawing.Point(203, 288);
-            this.labelDirectSound.Name = "labelDirectSound";
-            this.labelDirectSound.Size = new System.Drawing.Size(102, 20);
-            this.labelDirectSound.TabIndex = 6;
-            this.labelDirectSound.Text = "Direct Sound";
+            this.labelMCI.Text = "Nagrywanie z filtrem (tłumienie)";
             // 
             // labelRecord
             // 
@@ -149,61 +133,11 @@
             this.bRecord.UseVisualStyleBackColor = true;
             this.bRecord.Click += new System.EventHandler(this.bRecord_Click);
             // 
-            // bDS_stop
-            // 
-            this.bDS_stop.Image = global::Karta_muzyczna.Properties.Resources.stop_button;
-            this.bDS_stop.Location = new System.Drawing.Point(285, 327);
-            this.bDS_stop.Name = "bDS_stop";
-            this.bDS_stop.Size = new System.Drawing.Size(49, 49);
-            this.bDS_stop.TabIndex = 19;
-            this.bDS_stop.UseVisualStyleBackColor = true;
-            this.bDS_stop.Click += new System.EventHandler(this.bDS_stop_Click);
-            // 
-            // bDS_play
-            // 
-            this.bDS_play.Image = global::Karta_muzyczna.Properties.Resources.play_button;
-            this.bDS_play.Location = new System.Drawing.Point(151, 326);
-            this.bDS_play.Name = "bDS_play";
-            this.bDS_play.Size = new System.Drawing.Size(51, 49);
-            this.bDS_play.TabIndex = 18;
-            this.bDS_play.UseVisualStyleBackColor = true;
-            this.bDS_play.Click += new System.EventHandler(this.bDS_play_Click);
-            // 
-            // bMCI_stop
-            // 
-            this.bMCI_stop.Image = ((System.Drawing.Image)(resources.GetObject("bMCI_stop.Image")));
-            this.bMCI_stop.Location = new System.Drawing.Point(533, 542);
-            this.bMCI_stop.Name = "bMCI_stop";
-            this.bMCI_stop.Size = new System.Drawing.Size(51, 49);
-            this.bMCI_stop.TabIndex = 17;
-            this.bMCI_stop.UseVisualStyleBackColor = true;
-            this.bMCI_stop.Click += new System.EventHandler(this.bMCI_stop_Click);
-            // 
-            // bMCI_pause
-            // 
-            this.bMCI_pause.Image = ((System.Drawing.Image)(resources.GetObject("bMCI_pause.Image")));
-            this.bMCI_pause.Location = new System.Drawing.Point(467, 542);
-            this.bMCI_pause.Name = "bMCI_pause";
-            this.bMCI_pause.Size = new System.Drawing.Size(51, 49);
-            this.bMCI_pause.TabIndex = 16;
-            this.bMCI_pause.UseVisualStyleBackColor = true;
-            this.bMCI_pause.Click += new System.EventHandler(this.bMCI_pause_Click);
-            // 
-            // bMCI_play
-            // 
-            this.bMCI_play.Image = ((System.Drawing.Image)(resources.GetObject("bMCI_play.Image")));
-            this.bMCI_play.Location = new System.Drawing.Point(404, 542);
-            this.bMCI_play.Name = "bMCI_play";
-            this.bMCI_play.Size = new System.Drawing.Size(51, 49);
-            this.bMCI_play.TabIndex = 15;
-            this.bMCI_play.UseVisualStyleBackColor = true;
-            this.bMCI_play.Click += new System.EventHandler(this.bMCI_play_Click);
-            // 
             // bWOW_stop
             // 
             this.bWOW_stop.Cursor = System.Windows.Forms.Cursors.Default;
             this.bWOW_stop.Image = ((System.Drawing.Image)(resources.GetObject("bWOW_stop.Image")));
-            this.bWOW_stop.Location = new System.Drawing.Point(535, 326);
+            this.bWOW_stop.Location = new System.Drawing.Point(421, 331);
             this.bWOW_stop.Name = "bWOW_stop";
             this.bWOW_stop.Size = new System.Drawing.Size(51, 49);
             this.bWOW_stop.TabIndex = 14;
@@ -213,7 +147,7 @@
             // bWOW_play
             // 
             this.bWOW_play.Image = ((System.Drawing.Image)(resources.GetObject("bWOW_play.Image")));
-            this.bWOW_play.Location = new System.Drawing.Point(404, 326);
+            this.bWOW_play.Location = new System.Drawing.Point(290, 331);
             this.bWOW_play.Name = "bWOW_play";
             this.bWOW_play.Size = new System.Drawing.Size(51, 49);
             this.bWOW_play.TabIndex = 13;
@@ -223,7 +157,7 @@
             // bWMP_stop
             // 
             this.bWMP_stop.Image = ((System.Drawing.Image)(resources.GetObject("bWMP_stop.Image")));
-            this.bWMP_stop.Location = new System.Drawing.Point(542, 130);
+            this.bWMP_stop.Location = new System.Drawing.Point(427, 126);
             this.bWMP_stop.Name = "bWMP_stop";
             this.bWMP_stop.Size = new System.Drawing.Size(51, 49);
             this.bWMP_stop.TabIndex = 12;
@@ -233,7 +167,7 @@
             // bWMP_pause
             // 
             this.bWMP_pause.Image = ((System.Drawing.Image)(resources.GetObject("bWMP_pause.Image")));
-            this.bWMP_pause.Location = new System.Drawing.Point(473, 130);
+            this.bWMP_pause.Location = new System.Drawing.Point(358, 126);
             this.bWMP_pause.Name = "bWMP_pause";
             this.bWMP_pause.Size = new System.Drawing.Size(51, 49);
             this.bWMP_pause.TabIndex = 11;
@@ -243,37 +177,17 @@
             // bWMP_play
             // 
             this.bWMP_play.Image = ((System.Drawing.Image)(resources.GetObject("bWMP_play.Image")));
-            this.bWMP_play.Location = new System.Drawing.Point(405, 130);
+            this.bWMP_play.Location = new System.Drawing.Point(290, 126);
             this.bWMP_play.Name = "bWMP_play";
             this.bWMP_play.Size = new System.Drawing.Size(51, 49);
             this.bWMP_play.TabIndex = 10;
             this.bWMP_play.UseVisualStyleBackColor = true;
             this.bWMP_play.Click += new System.EventHandler(this.bWMP_play_Click);
             // 
-            // bPS_stop
-            // 
-            this.bPS_stop.Image = ((System.Drawing.Image)(resources.GetObject("bPS_stop.Image")));
-            this.bPS_stop.Location = new System.Drawing.Point(234, 130);
-            this.bPS_stop.Name = "bPS_stop";
-            this.bPS_stop.Size = new System.Drawing.Size(51, 49);
-            this.bPS_stop.TabIndex = 9;
-            this.bPS_stop.UseVisualStyleBackColor = true;
-            this.bPS_stop.Click += new System.EventHandler(this.bPS_stop_Click);
-            // 
-            // bPS_play
-            // 
-            this.bPS_play.Image = ((System.Drawing.Image)(resources.GetObject("bPS_play.Image")));
-            this.bPS_play.Location = new System.Drawing.Point(165, 130);
-            this.bPS_play.Name = "bPS_play";
-            this.bPS_play.Size = new System.Drawing.Size(51, 49);
-            this.bPS_play.TabIndex = 8;
-            this.bPS_play.UseVisualStyleBackColor = true;
-            this.bPS_play.Click += new System.EventHandler(this.bPS_play_Click);
-            // 
             // bWOW_pause
             // 
             this.bWOW_pause.Image = global::Karta_muzyczna.Properties.Resources.video_pause_button;
-            this.bWOW_pause.Location = new System.Drawing.Point(470, 326);
+            this.bWOW_pause.Location = new System.Drawing.Point(356, 331);
             this.bWOW_pause.Name = "bWOW_pause";
             this.bWOW_pause.Size = new System.Drawing.Size(49, 49);
             this.bWOW_pause.TabIndex = 21;
@@ -296,9 +210,9 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.Location = new System.Drawing.Point(271, 37);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(198, 25);
+            this.label2.Size = new System.Drawing.Size(246, 25);
             this.label2.TabIndex = 23;
-            this.label2.Text = "Odtwarzanie dźwięku";
+            this.label2.Text = "Odtwarzanie dźwięku .mp3";
             // 
             // label3
             // 
@@ -320,21 +234,11 @@
             this.label4.TabIndex = 25;
             this.label4.Text = "Wybór pliku do odtwarzania";
             // 
-            // bDS_pause
-            // 
-            this.bDS_pause.Image = global::Karta_muzyczna.Properties.Resources.video_pause_button;
-            this.bDS_pause.Location = new System.Drawing.Point(218, 327);
-            this.bDS_pause.Name = "bDS_pause";
-            this.bDS_pause.Size = new System.Drawing.Size(49, 49);
-            this.bDS_pause.TabIndex = 26;
-            this.bDS_pause.UseVisualStyleBackColor = true;
-            this.bDS_pause.Click += new System.EventHandler(this.bDS_pause_Click);
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label5.Location = new System.Drawing.Point(713, 238);
+            this.label5.Location = new System.Drawing.Point(701, 309);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(290, 25);
             this.label5.TabIndex = 27;
@@ -344,7 +248,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label6.Location = new System.Drawing.Point(752, 288);
+            this.label6.Location = new System.Drawing.Point(740, 359);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(98, 20);
             this.label6.TabIndex = 28;
@@ -354,7 +258,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label7.Location = new System.Drawing.Point(774, 323);
+            this.label7.Location = new System.Drawing.Point(762, 394);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(76, 20);
             this.label7.TabIndex = 29;
@@ -364,7 +268,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label8.Location = new System.Drawing.Point(718, 365);
+            this.label8.Location = new System.Drawing.Point(706, 436);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(132, 20);
             this.label8.TabIndex = 30;
@@ -374,7 +278,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label9.Location = new System.Drawing.Point(725, 405);
+            this.label9.Location = new System.Drawing.Point(713, 476);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(125, 20);
             this.label9.TabIndex = 31;
@@ -382,31 +286,136 @@
             // 
             // textBoxTag
             // 
-            this.textBoxTag.Location = new System.Drawing.Point(869, 282);
+            this.textBoxTag.Location = new System.Drawing.Point(857, 353);
             this.textBoxTag.Name = "textBoxTag";
             this.textBoxTag.Size = new System.Drawing.Size(100, 26);
             this.textBoxTag.TabIndex = 32;
             // 
             // textBoxChanels
             // 
-            this.textBoxChanels.Location = new System.Drawing.Point(869, 320);
+            this.textBoxChanels.Location = new System.Drawing.Point(857, 391);
             this.textBoxChanels.Name = "textBoxChanels";
             this.textBoxChanels.Size = new System.Drawing.Size(100, 26);
             this.textBoxChanels.TabIndex = 33;
             // 
             // textBoxSamples
             // 
-            this.textBoxSamples.Location = new System.Drawing.Point(869, 362);
+            this.textBoxSamples.Location = new System.Drawing.Point(857, 433);
             this.textBoxSamples.Name = "textBoxSamples";
             this.textBoxSamples.Size = new System.Drawing.Size(100, 26);
             this.textBoxSamples.TabIndex = 34;
             // 
             // textBoxBits
             // 
-            this.textBoxBits.Location = new System.Drawing.Point(869, 402);
+            this.textBoxBits.Location = new System.Drawing.Point(857, 473);
             this.textBoxBits.Name = "textBoxBits";
             this.textBoxBits.Size = new System.Drawing.Size(100, 26);
             this.textBoxBits.TabIndex = 35;
+            // 
+            // bRecordFiltered
+            // 
+            this.bRecordFiltered.Image = global::Karta_muzyczna.Properties.Resources.record1;
+            this.bRecordFiltered.Location = new System.Drawing.Point(457, 542);
+            this.bRecordFiltered.Name = "bRecordFiltered";
+            this.bRecordFiltered.Size = new System.Drawing.Size(49, 49);
+            this.bRecordFiltered.TabIndex = 36;
+            this.bRecordFiltered.UseVisualStyleBackColor = true;
+            this.bRecordFiltered.Click += new System.EventHandler(this.bRecordFiltered_Click);
+            // 
+            // textBoxGenre
+            // 
+            this.textBoxGenre.Location = new System.Drawing.Point(857, 201);
+            this.textBoxGenre.Name = "textBoxGenre";
+            this.textBoxGenre.Size = new System.Drawing.Size(100, 26);
+            this.textBoxGenre.TabIndex = 45;
+            // 
+            // textBoxAlbum
+            // 
+            this.textBoxAlbum.Location = new System.Drawing.Point(857, 161);
+            this.textBoxAlbum.Name = "textBoxAlbum";
+            this.textBoxAlbum.Size = new System.Drawing.Size(100, 26);
+            this.textBoxAlbum.TabIndex = 44;
+            // 
+            // textBoxArtist
+            // 
+            this.textBoxArtist.Location = new System.Drawing.Point(857, 119);
+            this.textBoxArtist.Name = "textBoxArtist";
+            this.textBoxArtist.Size = new System.Drawing.Size(100, 26);
+            this.textBoxArtist.TabIndex = 43;
+            // 
+            // textBoxTitle
+            // 
+            this.textBoxTitle.Location = new System.Drawing.Point(857, 81);
+            this.textBoxTitle.Name = "textBoxTitle";
+            this.textBoxTitle.Size = new System.Drawing.Size(100, 26);
+            this.textBoxTitle.TabIndex = 42;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label10.Location = new System.Drawing.Point(784, 204);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(54, 20);
+            this.label10.TabIndex = 41;
+            this.label10.Text = "Genre";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label11.Location = new System.Drawing.Point(784, 164);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(54, 20);
+            this.label11.TabIndex = 40;
+            this.label11.Text = "Album";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label12.Location = new System.Drawing.Point(792, 122);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(46, 20);
+            this.label12.TabIndex = 39;
+            this.label12.Text = "Artist";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label13.Location = new System.Drawing.Point(800, 84);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(38, 20);
+            this.label13.TabIndex = 38;
+            this.label13.Text = "Title";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label14.Location = new System.Drawing.Point(701, 37);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(280, 25);
+            this.label14.TabIndex = 37;
+            this.label14.Text = "Odczytane pola nagłówka mp3";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label15.Location = new System.Drawing.Point(768, 242);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(70, 20);
+            this.label15.TabIndex = 46;
+            this.label15.Text = "Duration";
+            // 
+            // textBoxDuration
+            // 
+            this.textBoxDuration.Location = new System.Drawing.Point(857, 239);
+            this.textBoxDuration.Name = "textBoxDuration";
+            this.textBoxDuration.Size = new System.Drawing.Size(100, 26);
+            this.textBoxDuration.TabIndex = 47;
             // 
             // Form1
             // 
@@ -414,6 +423,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.ClientSize = new System.Drawing.Size(1052, 753);
+            this.Controls.Add(this.textBoxDuration);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.textBoxGenre);
+            this.Controls.Add(this.textBoxAlbum);
+            this.Controls.Add(this.textBoxArtist);
+            this.Controls.Add(this.textBoxTitle);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.bRecordFiltered);
             this.Controls.Add(this.textBoxBits);
             this.Controls.Add(this.textBoxSamples);
             this.Controls.Add(this.textBoxChanels);
@@ -423,31 +444,21 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.bDS_pause);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.bWOW_pause);
             this.Controls.Add(this.bRecord);
-            this.Controls.Add(this.bDS_stop);
-            this.Controls.Add(this.bDS_play);
-            this.Controls.Add(this.bMCI_stop);
-            this.Controls.Add(this.bMCI_pause);
-            this.Controls.Add(this.bMCI_play);
             this.Controls.Add(this.bWOW_stop);
             this.Controls.Add(this.bWOW_play);
             this.Controls.Add(this.bWMP_stop);
             this.Controls.Add(this.bWMP_pause);
             this.Controls.Add(this.bWMP_play);
-            this.Controls.Add(this.bPS_stop);
-            this.Controls.Add(this.bPS_play);
             this.Controls.Add(this.labelRecord);
-            this.Controls.Add(this.labelDirectSound);
             this.Controls.Add(this.labelMCI);
             this.Controls.Add(this.labelWaveOutWrite);
             this.Controls.Add(this.labelWindowsMediaPlayer);
-            this.Controls.Add(this.labelPlaySound);
             this.Controls.Add(this.txtFilePath);
             this.Controls.Add(this.bChooseFile);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -463,31 +474,21 @@
 
         private System.Windows.Forms.Button bChooseFile;
         private System.Windows.Forms.TextBox txtFilePath;
-        private System.Windows.Forms.Label labelPlaySound;
         private System.Windows.Forms.Label labelWindowsMediaPlayer;
         private System.Windows.Forms.Label labelWaveOutWrite;
         private System.Windows.Forms.Label labelMCI;
-        private System.Windows.Forms.Label labelDirectSound;
         private System.Windows.Forms.Label labelRecord;
-        private System.Windows.Forms.Button bPS_play;
-        private System.Windows.Forms.Button bPS_stop;
         private System.Windows.Forms.Button bWMP_play;
         private System.Windows.Forms.Button bWMP_pause;
         private System.Windows.Forms.Button bWMP_stop;
         private System.Windows.Forms.Button bWOW_play;
         private System.Windows.Forms.Button bWOW_stop;
-        private System.Windows.Forms.Button bMCI_play;
-        private System.Windows.Forms.Button bMCI_pause;
-        private System.Windows.Forms.Button bMCI_stop;
-        private System.Windows.Forms.Button bDS_play;
-        private System.Windows.Forms.Button bDS_stop;
         private System.Windows.Forms.Button bRecord;
         private System.Windows.Forms.Button bWOW_pause;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button bDS_pause;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
@@ -497,6 +498,18 @@
         private System.Windows.Forms.TextBox textBoxChanels;
         private System.Windows.Forms.TextBox textBoxSamples;
         private System.Windows.Forms.TextBox textBoxBits;
+        private System.Windows.Forms.Button bRecordFiltered;
+        private System.Windows.Forms.TextBox textBoxGenre;
+        private System.Windows.Forms.TextBox textBoxAlbum;
+        private System.Windows.Forms.TextBox textBoxArtist;
+        private System.Windows.Forms.TextBox textBoxTitle;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox textBoxDuration;
     }
 }
 
